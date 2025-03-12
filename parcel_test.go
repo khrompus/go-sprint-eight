@@ -51,6 +51,7 @@ func TestAddGetDelete(t *testing.T) {
 	// проверьте, что значения всех полей в полученном объекте совпадают со значениями полей в переменной parcel
 	getAddedParcel, err := store.Get(parselNumber)
 	require.NoError(t, err)
+	assert.Equal(t, parcel.Number, getAddedParcel.Number)
 	assert.Equal(t, parcel.Status, getAddedParcel.Status)
 	assert.Equal(t, parcel.Address, getAddedParcel.Address)
 	assert.Equal(t, parcel.Client, getAddedParcel.Client)
@@ -109,8 +110,8 @@ func TestSetStatus(t *testing.T) {
 	// check
 	// получите добавленную посылку и убедитесь, что статус обновился
 	updatedStatus, err := store.Get(number)
-	require.NoError(t, err)
-	require.Equal(t, ParcelStatusSent, updatedStatus.Status)
+	assert.NoError(t, err)
+	assert.Equal(t, ParcelStatusSent, updatedStatus.Status)
 }
 
 // TestGetByClient проверяет получение посылок по идентификатору клиента
@@ -150,8 +151,8 @@ func TestGetByClient(t *testing.T) {
 	storedParcels, err := store.GetByClient(client) // получите список посылок по идентификатору клиента, сохранённого в переменной client
 	// убедитесь в отсутствии ошибки
 	// убедитесь, что количество полученных посылок совпадает с количеством добавленных
-	require.NoError(t, err)
-	require.Len(t, parcels, len(storedParcels))
+	assert.NoError(t, err)
+	assert.Len(t, parcels, len(storedParcels))
 	// check
 	for _, parcel := range storedParcels {
 		// в parcelMap лежат добавленные посылки, ключ - идентификатор посылки, значение - сама посылка
